@@ -346,7 +346,7 @@
         </div>
       </div>
 
-      <!-- ── STEP 3: Loan Selection ── -->
+    <!-- ── STEP 3: Loan Selection ── -->
       <div id="step-loan" class="app-step">
         <div class="step-header">
           <div class="step-breadcrumb">Step 3 of 4</div>
@@ -356,19 +356,21 @@
 
         <div class="amount-display">
           <div class="amount-label">Loan Amount</div>
-          <div class="amount-val">KES <span id="loan-display">50,000</span></div>
-          <input type="range" class="slider" id="loanSlider" min="1000" max="150000" step="1000" value="50000" oninput="updateLoanDisplay()">
-          <div class="slider-range"><span>KES 1,000</span><span id="slider-max-label">KES 150,000</span></div>
+          <div class="amount-val">KES <span id="loan-display">10,000</span></div>
+          <input type="range" class="slider" id="loanSlider" min="1000" max="115000" step="1000" value="10000" oninput="updateLoanDisplay()">
+          <div class="slider-range"><span>KES 1,000</span><span id="slider-max-label">KES 115,000</span></div>
         </div>
 
         <div class="section-label-sm">Quick Select</div>
         <div class="quick-amounts" id="quick-amounts">
+          <div class="qa-btn" onclick="setLoanAmount(1000)">KES 1K</div>
+          <div class="qa-btn" onclick="setLoanAmount(5000)">KES 5K</div>
           <div class="qa-btn" onclick="setLoanAmount(10000)">KES 10K</div>
+          <div class="qa-btn" onclick="setLoanAmount(20000)">KES 20K</div>
           <div class="qa-btn" onclick="setLoanAmount(30000)">KES 30K</div>
-          <div class="qa-btn selected" onclick="setLoanAmount(50000)">KES 50K</div>
-          <div class="qa-btn" onclick="setLoanAmount(75000)">KES 75K</div>
-          <div class="qa-btn" onclick="setLoanAmount(100000)">KES 100K</div>
-          <div class="qa-btn" onclick="setLoanAmount(150000)">KES 150K</div>
+          <div class="qa-btn" onclick="setLoanAmount(50000)">KES 50K</div>
+          <div class="qa-btn" onclick="setLoanAmount(80000)">KES 80K</div>
+          <div class="qa-btn" onclick="setLoanAmount(115000)">KES 115K</div>
         </div>
 
         <div class="section-label-sm">Repayment Period</div>
@@ -384,10 +386,27 @@
           <div class="ls-card"><div class="ls-lbl">Monthly Payment</div><div class="ls-val" id="ls-monthly">—</div></div>
           <div class="ls-card"><div class="ls-lbl">Total Interest</div><div class="ls-val" id="ls-interest">—</div></div>
           <div class="ls-card"><div class="ls-lbl">Total Repayment</div><div class="ls-val" id="ls-total">—</div></div>
-          <div class="ls-card highlight"><div class="ls-lbl">Processing Fee</div><div class="ls-val" id="ls-fee">—</div></div>
+          <div class="ls-card highlight">
+            <div class="ls-lbl">Processing Fee <span style="font-size:10px;font-weight:400;color:var(--gold)">(10% of loan)</span></div>
+            <div class="ls-val" id="ls-fee">—</div>
+          </div>
         </div>
 
-        <div class="info-note blue">📋 The processing fee is a one-time payment via M-Pesa required to submit your application for review.</div>
+        <div class="fee-note-box">
+          <div class="fnb-left">
+            <div class="fnb-icon">💡</div>
+            <div>
+              <div class="fnb-title">How is the processing fee calculated?</div>
+              <div class="fnb-desc">The processing fee is <strong>10% of your requested loan amount</strong>, paid once via M-Pesa before your application goes to the credit committee. It covers CRB checks, IPRS verification, and administrative costs.</div>
+            </div>
+          </div>
+          <div class="fnb-example">
+            <div class="fnb-ex-label">Your fee</div>
+            <div class="fnb-ex-val" id="fnb-fee-live">KES —</div>
+          </div>
+        </div>
+
+        <div class="info-note blue">📋 The processing fee is non-refundable and required to submit your application for review.</div>
         <button class="btn-primary" onclick="proceedToPayment()">Proceed to Payment →</button>
       </div>
 
