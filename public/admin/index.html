@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwiftCredit Admin — Loan Management Portal</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:#0A7C4E;--green-light:#12A868;--green-pale:#E6F5EE;--green-dark:#064F32;
+  --gold:#D4A017;--charcoal:#1A1A2E;--charcoal2:#16213E;--slate:#2D3748;
+  --muted:#718096;--muted2:#A0AEC0;--border:#E2E8F0;--surface:#F7FAFC;
+  --white:#fff;--danger:#E53E3E;--blue:#2B6CB0;--purple:#6B46C1;
+  --radius:14px;--shadow:0 4px 20px rgba(0,0,0,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#F0F2F5;color:var(--charcoal);min-height:100vh}
+h1,h2,h3,h4{font-family:'Syne',sans-serif}
+a{text-decoration:none;color:inherit}
+
+/* ── Login Screen ── */
+#login-screen {
+  min-height:100vh;background:linear-gradient(135deg,#0A1628 0%,#0A7C4E 100%);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+.login-card{background:#fff;border-radius:24px;padding:44px 40px;width:100%;max-width:420px;box-shadow:0 32px 80px rgba(0,0,0,0.3)}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px;justify-content:center}
+.login-logo .li{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--green-light));display:flex;align-items:center;justify-content:center;font-size:20px}
+.login-logo .lt{font-family:'Syne',sans-serif;font-size:20px;font-weight:700}
+.login-logo .lt span{color:var(--gold)}
+.login-tag{text-align:center;margin-bottom:28px}
+.login-tag h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.login-tag p{font-size:14px;color:var(--muted)}
+.l-group{margin-bottom:18px}
+.l-label{display:block;font-size:13px;font-weight:500;color:var(--slate);margin-bottom:7px}
+.l-input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:all 0.2s}
+.l-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(10,124,78,0.08)}
+.btn-login{width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:4px}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(10,124,78,0.35)}
+.login-err{color:var(--danger);font-size:13px;text-align:center;margin-top:10px;display:none}
+.login-err.show{display:block}
+
+/* ── Dashboard Shell ── */
+#dashboard{display:none;min-height:100vh}
+#dashboard.visible{display:flex}
+
+/* Sidebar */
+.adm-sidebar{width:240px;background:var(--charcoal2);display:flex;flex-direction:column;padding:0;position:sticky;top:0;height:100vh;flex-shrink:0}
+.adm-logo{padding:20px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.adm-logo .lt{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff}
+.adm-logo .lt span{color:var(--gold)}
+.adm-logo .sub{font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px}
+.adm-nav{flex:1;padding:16px 10px;overflow-y:auto}
+.nav-section{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.2);padding:10px 10px 5px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;transition:all 0.2s;margin-bottom:1px}
+.nav-item:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.85)}
+.nav-item.active{background:rgba(10,124,78,0.22);color:#4ADE80}
+.nav-item .ni{font-size:17px;flex-shrink:0}
+.adm-user{padding:14px 16px 16px;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:10px}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-light));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.adm-name{font-size:13px;color:rgba(255,255,255,0.8);font-weight:500}
+.adm-role{font-size:11px;color:rgba(255,255,255,0.3)}
+
+/* Main */
+.adm-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.adm-topbar{background:#fff;padding:14px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.tb-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700}
+.tb-right{display:flex;gap:10px;align-items:center}
+.tb-clock{font-size:13px;color:var(--muted)}
+.tb-btn{padding:8px 16px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:13px;cursor:pointer;color:var(--slate);transition:all 0.2s}
+.tb-btn:hover{background:var(--surface)}
+.tb-btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.tb-btn.primary:hover{background:var(--green-dark)}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+.b-pending{background:#FFFBEB;color:#D69E2E}
+.b-approved{background:#F0FFF4;color:#276749}
+.b-rejected{background:#FFF5F5;color:#C53030}
+.b-disbursed{background:#EBF8FF;color:var(--blue)}
+.b-review{background:#FAF5FF;color:var(--purple)}
+.b-draft{background:var(--surface);color:var(--muted)}
+.notif{background:var(--danger);color:#fff;font-size:10px;padding:2px 5px;border-radius:50px;font-weight:700}
+
+.adm-content{flex:1;overflow-y:auto;padding:24px 28px}
+
+/* Tabs */
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;transition:all 0.2s}
+.kpi:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.kpi-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.kpi-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.ki-g{background:var(--green-pale)}.ki-gold{background:#FFFBEB}.ki-b{background:#EBF8FF}.ki-r{background:#FFF5F5}
+.kpi-chg{font-size:12px;font-weight:500}.up{color:#38A169}.dn{color:var(--danger)}
+.kpi-val{font-family:'Syne',sans-serif;font-size:24px;font-weight:700}
+.kpi-lbl{font-size:13px;color:var(--muted);margin-top:3px}
+
+/* Panels */
+.panels{display:grid;grid-template-columns:1fr 320px;gap:18px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.panel-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.panel-action{font-size:13px;color:var(--green);cursor:pointer}
+
+/* Chart */
+.chart-wrap{padding:16px 18px 0;height:160px;display:flex;align-items:flex-end;gap:5px}
+.bar{flex:1;background:linear-gradient(to top,var(--green),rgba(10,124,78,0.3));border-radius:4px 4px 0 0;position:relative;cursor:pointer;transition:opacity 0.2s}
+.bar:hover{opacity:0.75}
+.bar-lbl{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--muted);white-space:nowrap}
+.bar-val{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--slate);font-weight:600;white-space:nowrap}
+.chart-axis{height:20px}
+
+/* Filter bar */
+.fbar{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fsearch{padding:8px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;min-width:180px}
+.fsearch:focus{border-color:var(--green)}
+.fpill{padding:6px 14px;border-radius:50px;border:1.5px solid var(--border);background:#fff;font-size:12px;cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.fpill:hover{border-color:var(--green)}
+.fpill.active{border-color:var(--green);background:var(--green-pale);color:var(--green-dark);font-weight:600}
+
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse}
+table.tbl th{background:var(--surface);padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);font-weight:500;white-space:nowrap}
+table.tbl td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:middle}
+table.tbl tr:last-child td{border:none}
+table.tbl tr:hover td{background:#FAFBFC}
+.act-btns{display:flex;gap:5px}
+.act-btn{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s}
+.act-approve{background:#F0FFF4;color:#276749}.act-approve:hover{background:#C6F6D5}
+.act-reject{background:#FFF5F5;color:#C53030}.act-reject:hover{background:#FED7D7}
+.act-view{background:var(--surface);color:var(--slate)}.act-view:hover{background:var(--border)}
+.act-disburse{background:#EBF8FF;color:var(--blue)}.act-disburse:hover{background:#BEE3F8}
+
+/* Activity feed */
+.feed{padding:6px 0}
+.feed-item{display:flex;gap:12px;padding:10px 18px;cursor:pointer}
+.feed-item:hover{background:var(--surface)}
+.fdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.fd-g{background:#48BB78}.fd-a{background:var(--gold)}.fd-r{background:var(--danger)}.fd-b{background:#4299E1}
+.ftext{font-size:13px;color:var(--slate);line-height:1.4}
+.ftime{font-size:11px;color:var(--muted2);margin-top:2px}
+
+/* Quick stats */
+.qs-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.qs-row:last-child{border:none}
+.qs-lbl{color:var(--muted)}
+.qs-val{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;transform:scale(0.95);transition:transform 0.2s}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:5}
+.modal-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700}
+.modal-close{width:30px;height:30px;border-radius:7px;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:22px 24px}
+.det-sec{margin-bottom:20px}
+.det-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.det-key{font-size:12px;color:var(--muted);margin-bottom:2px}
+.det-val{font-size:14px;color:var(--charcoal);font-weight:500}
+.modal-actions{display:flex;gap:10px;padding:16px 24px;border-top:1px solid var(--border);position:sticky;bottom:0;background:#fff}
+.modal-actions .act-btn{padding:10px 18px;font-size:13px;flex:1;text-align:center;border-radius:10px}
+.note-area{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;resize:none;height:70px;outline:none;margin-top:8px}
+.note-area:focus{border-color:var(--green)}
+
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--charcoal);color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;z-index:9999;transform:translateY(100px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,0.3);max-width:340px}
+.toast.show{transform:translateY(0);opacity:1}
+.t-s{background:#276749}.t-e{background:#C53030}
+
+/* Pagination */
+.pager{display:flex;align-items:center;gap:8px;padding:14px 18px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+.pg-btn{padding:6px 12px;border:1.5px solid var(--border);border-radius:7px;background:#fff;cursor:pointer;font-size:12px;transition:all 0.15s}
+.pg-btn:hover{border-color:var(--green);color:var(--green)}
+.pg-btn.active{border-color:var(--green);background:var(--green);color:#fff}
+
+@media(max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .panels{grid-template-columns:1fr}
+  .adm-sidebar{width:200px}
+  .adm-content{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="li">💳</div>
+      <div class="lt">Swift<span>Credit</span></div>
+    </div>
+    <div class="login-tag">
+      <h2>Admin Portal</h2>
+      <p>Authorised personnel only</p>
+    </div>
+    <div class="l-group">
+      <label class="l-label">Username</label>
+      <input type="text" class="l-input" id="l-user" placeholder="admin" autocomplete="username">
+    </div>
+    <div class="l-group">
+      <label class="l-label">Password</label>
+      <input type="password" class="l-input" id="l-pass" placeholder="••••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-login" onclick="doLogin()">Sign In →</button>
+    <div class="login-err" id="login-err">Invalid credentials. Please try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <aside class="adm-sidebar">
+    <div class="adm-logo">
+      <div class="lt">Swift<span>Credit</span></div>
+      <div class="sub">Admin Portal v2.0</div>
+    </div>
+    <nav class="adm-nav">
+      <div class="nav-section">Main</div>
+      <div class="nav-item active" onclick="switchTab('overview',this)"><span class="ni">📊</span> Overview</div>
+      <div class="nav-item" onclick="switchTab('applications',this)"><span class="ni">📋</span> Applications <span class="notif" id="nav-badge" style="margin-left:auto">0</span></div>
+      <div class="nav-item" onclick="switchTab('disbursements',this)"><span class="ni">💸</span> Disbursements</div>
+      <div class="nav-section">Management</div>
+      <div class="nav-item" onclick="switchTab('customers',this)"><span class="ni">👥</span> Customers</div>
+      <div class="nav-item" onclick="switchTab('transactions',this)"><span class="ni">💳</span> Transactions</div>
+      <div class="nav-item" onclick="switchTab('risk',this)"><span class="ni">🛡️</span> Risk & Compliance</div>
+      <div class="nav-section">System</div>
+      <div class="nav-item" onclick="switchTab('settings',this)"><span class="ni">⚙️</span> Settings</div>
+      <div class="nav-item" onclick="doLogout()"><span class="ni">🚪</span> Logout</div>
+    </nav>
+    <div class="adm-user">
+      <div class="av">AD</div>
+      <div><div class="adm-name">Admin User</div><div class="adm-role">Super Admin</div></div>
+    </div>
+  </aside>
+
+  <div class="adm-main">
+    <div class="adm-topbar">
+      <div class="tb-title" id="tb-title">Dashboard Overview</div>
+      <div class="tb-right">
+        <div class="tb-clock" id="adm-clock"></div>
+        <button class="tb-btn" onclick="exportCSV()">⬇ Export CSV</button>
+        <button class="tb-btn primary" onclick="loadDashboard()">↺ Refresh</button>
+      </div>
+    </div>
+
+    <div class="adm-content">
+
+      <!-- OVERVIEW TAB -->
+      <div class="tab-panel active" id="tab-overview">
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-top"><div class="kpi-icon ki-g">📋</div><div class="kpi-chg up" id="kpi-chg-total">—</div></div><div class="kpi-val" id="kpi-total">—</div><div class="kpi-lbl">Total Applications</div></div>
+          <div class="kpi"><div class="kpi-top"><div class="kpi-icon ki-gold">⏳</div><div class="kpi-chg up" id="kpi-chg-pend">—</div></div><div class="kpi-val" style="color:var(--gold)" id="kpi-pending">—</div><div class="kpi-lbl">Pending Review</div></div>
+          <div class="kpi"><div class="kpi-top"><div class="kpi-icon ki-b">💰</div><div class="kpi-chg up">—</div></div><div class="kpi-val" style="color:var(--blue)" id="kpi-disbursed">—</div><div class="kpi-lbl">Total Disbursed</div></div>
+          <div class="kpi"><div class="kpi-top"><div class="kpi-icon ki-g">✅</div><div class="kpi-chg" id="kpi-chg-rate">—</div></div><div class="kpi-val" style="color:var(--green)" id="kpi-rate">—</div><div class="kpi-lbl">Approval Rate</div></div>
+        </div>
+
+        <div class="panels">
+          <div>
+            <div class="panel" style="margin-bottom:18px">
+              <div class="panel-head"><div class="panel-title">Application Trend (7 days)</div><div class="panel-action">Week ▾</div></div>
+              <div class="chart-wrap" id="adm-chart"></div>
+              <div class="chart-axis"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div class="panel-title">Recent Applications</div>
+                <div class="panel-action" onclick="switchTab('applications', document.querySelector('[onclick*=applications]'))">View all →</div>
+              </div>
+              <div class="fbar">
+                <input class="fsearch" type="text" placeholder="🔍  Search name, ID, reference..." id="ov-search" oninput="loadApplications(1)">
+                <div class="fpill active" onclick="filterStatus('all',this)">All</div>
+                <div class="fpill" onclick="filterStatus('pending',this)">Pending</div>
+                <div class="fpill" onclick="filterStatus('approved',this)">Approved</div>
+                <div class="fpill" onclick="filterStatus('rejected',this)">Rejected</div>
+              </div>
+              <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Ref</th><th>Applicant</th><th>ID No.</th><th>Amount</th><th>Tenor</th><th>Score</th><th>Fee</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="tbl-body"></tbody></table></div>
+              <div class="pager" id="pager"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="panel" style="margin-bottom:18px">
+              <div class="panel-head"><div class="panel-title">Quick Stats</div></div>
+              <div style="padding:14px 18px">
+                <div class="qs-row"><span class="qs-lbl">Avg. Loan Size</span><span class="qs-val" id="qs-avg">—</span></div>
+                <div class="qs-row"><span class="qs-lbl">Fees Collected</span><span class="qs-val" style="color:var(--green)" id="qs-fees">—</span></div>
+                <div class="qs-row"><span class="qs-lbl">Default Rate</span><span class="qs-val" style="color:var(--danger)">3.2%</span></div>
+                <div class="qs-row"><span class="qs-lbl">Active Loans</span><span class="qs-val" style="color:var(--blue)" id="qs-active">—</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><div class="panel-title">Recent Activity</div></div>
+              <div class="feed" id="activity-feed"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPLICATIONS TAB -->
+      <div class="tab-panel" id="tab-applications">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">All Loan Applications</div>
+            <button class="tb-btn" onclick="exportCSV()">⬇ Export</button>
+          </div>
+          <div class="fbar">
+            <input class="fsearch" type="text" placeholder="🔍  Search by name, ID or reference..." id="all-search" oninput="loadApplications(1)">
+            <div class="fpill active" onclick="filterStatus('all',this)">All</div>
+            <div class="fpill" onclick="filterStatus('pending',this)">Pending</div>
+            <div class="fpill" onclick="filterStatus('approved',this)">Approved</div>
+            <div class="fpill" onclick="filterStatus('rejected',this)">Rejected</div>
+            <div class="fpill" onclick="filterStatus('disbursed',this)">Disbursed</div>
+            <div class="fpill" onclick="filterStatus('review',this)">Review</div>
+          </div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Ref</th><th>Applicant</th><th>National ID</th><th>Phone</th><th>Amount</th><th>Tenor</th><th>Score</th><th>Fee Paid</th><th>Status</th><th>Applied</th><th>Actions</th></tr></thead><tbody id="all-tbl-body"></tbody></table></div>
+          <div class="pager" id="all-pager"></div>
+        </div>
+      </div>
+
+      <!-- DISBURSEMENTS TAB -->
+      <div class="tab-panel" id="tab-disbursements">
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Disbursements</div><button class="tb-btn primary" onclick="toast('Batch disbursement initiated','success')">▶ Run Batch</button></div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Ref</th><th>Applicant</th><th>Phone</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody id="dis-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- CUSTOMERS TAB -->
+      <div class="tab-panel" id="tab-customers">
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Customer Database</div></div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Name</th><th>National ID</th><th>Phone</th><th>Applications</th><th>Total Borrowed</th><th>Last Active</th></tr></thead><tbody id="cust-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS TAB -->
+      <div class="tab-panel" id="tab-transactions">
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">M-Pesa Transactions</div></div>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Lipana ID</th><th>Application Ref</th><th>Phone</th><th>Amount</th><th>M-Pesa Code</th><th>Status</th><th>Date</th></tr></thead><tbody id="txn-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- RISK TAB -->
+      <div class="tab-panel" id="tab-risk">
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpi"><div class="kpi-top"><div class="kpi-icon ki-r">⚠️</div></div><div class="kpi-val" style="color:var(--danger)">3.2%</div><div class="kpi-lbl">Default Rate</div></div>
+          <div class="kpi"><div class="kpi-top"><div class="kpi-icon ki-gold">🔍</div></div><div class="kpi-val" style="color:var(--gold)" id="kpi-flagged">—</div><div class="kpi-lbl">Flagged Applications</div></div>
+          <div class="kpi"><div class="kpi-top"><div class="kpi-icon ki-g">✅</div></div><div class="kpi-val" style="color:var(--green)">100%</div><div class="kpi-lbl">CBK Compliance Score</div></div>
+        </div>
+        <div class="panel"><div class="panel-head"><div class="panel-title">Risk Rules</div></div>
+          <div style="padding:20px">
+            <div class="qs-row"><span class="qs-lbl">Min Credit Score for Approval</span><span class="qs-val">600</span></div>
+            <div class="qs-row"><span class="qs-lbl">Max Debt-to-Income Ratio</span><span class="qs-val">40%</span></div>
+            <div class="qs-row"><span class="qs-lbl">Max Loan-to-Income Multiple</span><span class="qs-val">3×</span></div>
+            <div class="qs-row"><span class="qs-lbl">CRB Adverse Listing Block</span><span class="qs-val" style="color:var(--green)">Enabled</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div class="tab-panel" id="tab-settings">
+        <div class="panel" style="max-width:520px">
+          <div class="panel-head"><div class="panel-title">System Settings</div></div>
+          <div style="padding:22px">
+            <div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:500;color:var(--slate);margin-bottom:7px">Processing Fee (KES)</label><input type="number" class="fsearch" style="width:100%;padding:12px 14px;border-radius:9px" value="500"></div>
+            <div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:500;color:var(--slate);margin-bottom:7px">Base Interest Rate (%)</label><input type="number" class="fsearch" style="width:100%;padding:12px 14px;border-radius:9px" value="12"></div>
+            <div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:500;color:var(--slate);margin-bottom:7px">Minimum Credit Score</label><input type="number" class="fsearch" style="width:100%;padding:12px 14px;border-radius:9px" value="600"></div>
+            <div style="margin-bottom:22px"><label style="display:block;font-size:13px;font-weight:500;color:var(--slate);margin-bottom:7px">Maximum Loan Amount (KES)</label><input type="number" class="fsearch" style="width:100%;padding:12px 14px;border-radius:9px" value="500000"></div>
+            <button class="btn-login" style="border-radius:10px;padding:12px" onclick="toast('Settings saved successfully','success')">Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- adm-content -->
+  </div><!-- adm-main -->
+</div><!-- dashboard -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="m-ref">—</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="det-sec">
+        <div class="det-title">Applicant</div>
+        <div class="det-grid">
+          <div><div class="det-key">Full Name</div><div class="det-val" id="m-name">—</div></div>
+          <div><div class="det-key">National ID</div><div class="det-val" id="m-id">—</div></div>
+          <div><div class="det-key">Phone</div><div class="det-val" id="m-phone">—</div></div>
+          <div><div class="det-key">Employment</div><div class="det-val" id="m-emp">—</div></div>
+          <div><div class="det-key">Income (KES)</div><div class="det-val" id="m-income">—</div></div>
+          <div><div class="det-key">Credit Score</div><div class="det-val" id="m-score" style="color:var(--green);font-weight:700">—</div></div>
+        </div>
+      </div>
+      <div class="det-sec">
+        <div class="det-title">Loan Details</div>
+        <div class="det-grid">
+          <div><div class="det-key">Amount</div><div class="det-val" id="m-amount">—</div></div>
+          <div><div class="det-key">Tenor</div><div class="det-val" id="m-tenor">—</div></div>
+          <div><div class="det-key">Monthly Payment</div><div class="det-val" id="m-monthly">—</div></div>
+          <div><div class="det-key">Processing Fee</div><div class="det-val" id="m-fee" style="color:var(--green)">—</div></div>
+          <div><div class="det-key">Purpose</div><div class="det-val" id="m-purpose">—</div></div>
+          <div><div class="det-key">M-Pesa Code</div><div class="det-val" id="m-mpesa">—</div></div>
+        </div>
+      </div>
+      <div class="det-sec">
+        <div class="det-title">Status & Admin Note</div>
+        <div id="m-status-badge" style="margin-bottom:10px"></div>
+        <textarea class="note-area" id="m-note" placeholder="Add an admin note or decision reason..."></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="act-btn act-approve" onclick="modalAction('approved')">✅ Approve</button>
+      <button class="act-btn act-disburse" onclick="modalAction('disbursed')">💸 Disburse</button>
+      <button class="act-btn act-reject" onclick="modalAction('rejected')">❌ Reject</button>
+      <button class="act-btn act-view" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="adm-toast"><span id="t-icon"></span><span id="t-msg"></span></div>
+
+<script src="/admin/admin.js"></script>
+</body>
+</html>
