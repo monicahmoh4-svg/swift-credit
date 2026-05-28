@@ -188,11 +188,18 @@ function showEligibleResult(data) {
   document.getElementById('eligibility-result').style.display = 'block';
   document.getElementById('m-maxloan').textContent = `KES ${data.maxLoan.toLocaleString()}`;
   document.getElementById('m-score').textContent = data.creditScore;
-  // Update loan slider max
-  const slider = document.getElementById('loanSlider');
-  if (slider) { slider.max = data.maxLoan; document.getElementById('slider-max-label').textContent = `KES ${data.maxLoan.toLocaleString()}`; }
-}
 
+  // Cap slider at min(approvedMax, 115000)
+  const effectiveMax = Math.min(data.maxLoan, 115000);
+  const slider = document.getElementById('loanSlider');
+  if (slider) {
+    slider.max   = effectiveMax;
+    slider.value = Math.min(parseInt(slider.value), effectiveMax);
+    state.loanAmount = parseInt(slider.value);
+    document.getElementById('slider-max-label').textContent = `KES ${effectiveMax.toLocaleString()}`;
+    document.getElementById('loan-display').textContent = state.loanAmount.toLocaleString();
+  }
+}
 function showIneligible(score) {
   document.getElementById('eligibility-checking').style.display = 'none';
   document.getElementById('eligibility-result').style.display = 'block';
@@ -221,25 +228,25 @@ function updateLoanDisplay() {
   const slider = document.getElementById('loanSlider');
   state.loanAmount = parseInt(slider.value);
   document.getElementById('loan-display').textContent = state.loanAmount.toLocaleString();
-  calcTerms();
-  // Sync quick-select highlight
   document.querySelectorAll('.qa-btn').forEach(b => b.classList.remove('selected'));
+  calcTerms();
 }
 
 function setLoanAmount(amt) {
-  const max = state.maxLoan || 150000;
-  const actual = Math.min(amt, max);
+  const max = Math.min(state.maxLoan || 115000, 115000);
+  const actual = Math.min(Math.max(amt, 1000), max);
   const slider = document.getElementById('loanSlider');
   slider.value = actual;
   state.loanAmount = actual;
   document.getElementById('loan-display').textContent = actual.toLocaleString();
   calcTerms();
-  // Highlight correct button
+  document.querySelectorAll('.qa-btn').forEach(b => b.classList.remove('selected'));
+  // Highlight matching quick-select button
   document.querySelectorAll('.qa-btn').forEach(b => {
-    b.classList.toggle('selected', parseInt(b.textContent.replace(/[^\d]/g, '')) * (b.textContent.includes('K') ? 1000 : 1) === amt);
+    const btnAmt = parseInt(b.textContent.replace(/[^\d]/g, '')) * (b.textContent.toUpperCase().includes('K') ? 1000 : 1);
+    b.classList.toggle('selected', btnAmt === amt);
   });
 }
-
 function setTenor(el, months) {
   document.querySelectorAll('.tenor-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
@@ -247,22 +254,32 @@ function setTenor(el, months) {
   calcTerms();
 }
 
+function calcProcessingFee(amount) {
+  return Math.round(amount * 0.10); // 10% flat
+}
+
 function calcTerms() {
-  const amt = state.loanAmount;
-  const m = currentTenor;
+  const amt  = state.loanAmount;
+  const m    = currentTenor;
   const rate = 0.12 / 12;
-  const monthly = m === 1 ? amt * (1 + rate) : amt * (rate * Math.pow(1 + rate, m)) / (Math.pow(1 + rate, m) - 1);
-  const total = monthly * m;
+  const monthly = m === 1
+    ? amt * (1 + rate)
+    : amt * (rate * Math.pow(1 + rate, m)) / (Math.pow(1 + rate, m) - 1);
+  const total    = monthly * m;
   const interest = total - amt;
-  const fee = Math.max(300, Math.round(amt * 0.01 / 100) * 100);
+  const fee      = calcProcessingFee(amt);
 
   state.monthlyPayment = Math.round(monthly);
-  state.processingFee = fee;
+  state.processingFee  = fee;
 
-  document.getElementById('ls-monthly').textContent = `KES ${Math.round(monthly).toLocaleString()}`;
+  document.getElementById('ls-monthly').textContent  = `KES ${Math.round(monthly).toLocaleString()}`;
   document.getElementById('ls-interest').textContent = `KES ${Math.round(interest).toLocaleString()}`;
-  document.getElementById('ls-total').textContent = `KES ${Math.round(total).toLocaleString()}`;
-  document.getElementById('ls-fee').textContent = `KES ${fee.toLocaleString()}`;
+  document.getElementById('ls-total').textContent    = `KES ${Math.round(total).toLocaleString()}`;
+  document.getElementById('ls-fee').textContent      = `KES ${fee.toLocaleString()}`;
+
+  // Live fee callout box
+  const liveEl = document.getElementById('fnb-fee-live');
+  if (liveEl) liveEl.textContent = `KES ${fee.toLocaleString()}`;
 }
 
 async function proceedToPayment() {
