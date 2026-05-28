@@ -4,25 +4,21 @@ const { LoanApplication } = require('../models');
 
 const MIN_LOAN = 1000;
 const MAX_LOAN = 115000;
-const FEE_RATE = 0.10; // 10% of loan amount
 
 function calcProcessingFee(amount) {
-  return Math.round(amount * FEE_RATE);
+  return Math.round(amount * 0.10); // 10% flat
 }
 
-// ─── Create application (Step 1) ─────────────────────────────────
+// ─── Step 1: Create application ───────────────────────────────────
 router.post('/start', async (req, res) => {
   try {
-    const {
-      firstName, lastName, idNumber, kraPin, phone,
-      dob, gender, employment, income, email, loanPurpose
-    } = req.body;
+    const { firstName, lastName, idNumber, kraPin, phone,
+            dob, gender, employment, income, email, loanPurpose } = req.body;
 
     if (!firstName || !lastName || !idNumber || !phone || !dob || !employment || !income || !loanPurpose)
       return res.status(400).json({ error: 'All required fields must be filled' });
-
     if (!/^\d{8}$/.test(idNumber))
-      return res.status(400).json({ error: 'Invalid ID number (must be 8 digits)' });
+      return res.status(400).json({ error: 'Invalid ID number — must be 8 digits' });
 
     const app = await LoanApplication.create({
       firstName, lastName, idNumber: idNumber.trim(), kraPin: kraPin || '',
@@ -30,14 +26,14 @@ router.post('/start', async (req, res) => {
       income: Number(income), email: email || '', loanPurpose
     });
 
-    res.json({ success: true, applicationId: app._id, refNumber: app.refNumber });
+    res.json({ success: true, applicationId: app.id, refNumber: app.refNumber });
   } catch (err) {
-    console.error('Start application error:', err.message);
+    console.error('Start error:', err.message);
     res.status(500).json({ error: 'Server error. Please try again.' });
   }
 });
 
-// ─── Eligibility check (Step 2) ──────────────────────────────────
+// ─── Step 2: Eligibility check ────────────────────────────────────
 router.post('/eligibility/:id', async (req, res) => {
   try {
     const app = await LoanApplication.findById(req.params.id);
@@ -58,13 +54,10 @@ router.post('/eligibility/:id', async (req, res) => {
     const seed = parseInt(app.idNumber.slice(-3)) % 60;
     baseScore += seed;
 
-    const creditScore = Math.min(850, Math.max(520, baseScore));
-
-    // Max loan capped at KES 115,000. Income-linked: up to 3× monthly income,
-    // never exceeding MAX_LOAN, never below MIN_LOAN.
-    const incomeLinked = Math.round((app.income * 3) / 1000) * 1000;
-    const maxLoan = Math.min(MAX_LOAN, Math.max(MIN_LOAN, incomeLinked));
-    const eligible = creditScore >= 580 && maxLoan >= MIN_LOAN;
+    const creditScore   = Math.min(850, Math.max(520, baseScore));
+    const incomeLinked  = Math.round((app.income * 3) / 1000) * 1000;
+    const maxLoan       = Math.min(MAX_LOAN, Math.max(MIN_LOAN, incomeLinked));
+    const eligible      = creditScore >= 580 && maxLoan >= MIN_LOAN;
 
     await LoanApplication.findByIdAndUpdate(req.params.id, { creditScore, maxLoan, eligible });
 
@@ -74,7 +67,7 @@ router.post('/eligibility/:id', async (req, res) => {
   }
 });
 
-// ─── Select loan amount & tenor (Step 3) ─────────────────────────
+// ─── Step 3: Select loan amount & tenor ───────────────────────────
 router.post('/select/:id', async (req, res) => {
   try {
     const { loanAmount, tenor } = req.body;
@@ -82,9 +75,9 @@ router.post('/select/:id', async (req, res) => {
     if (!app) return res.status(404).json({ error: 'Not found' });
 
     if (loanAmount < MIN_LOAN)
-      return res.status(400).json({ error: `Minimum loan amount is KES ${MIN_LOAN.toLocaleString()}` });
+      return res.status(400).json({ error: `Minimum loan is KES ${MIN_LOAN.toLocaleString()}` });
     if (loanAmount > MAX_LOAN)
-      return res.status(400).json({ error: `Maximum loan amount is KES ${MAX_LOAN.toLocaleString()}` });
+      return res.status(400).json({ error: `Maximum loan is KES ${MAX_LOAN.toLocaleString()}` });
     if (loanAmount > app.maxLoan)
       return res.status(400).json({ error: 'Amount exceeds your approved maximum' });
 
@@ -97,8 +90,7 @@ router.post('/select/:id', async (req, res) => {
     const processingFee  = calcProcessingFee(loanAmount);
 
     await LoanApplication.findByIdAndUpdate(req.params.id, {
-      loanAmount,
-      tenor: months,
+      loanAmount, tenor: months,
       monthlyPayment:  Math.round(monthly),
       totalRepayment:  Math.round(totalRepayment),
       processingFee
@@ -115,11 +107,11 @@ router.post('/select/:id', async (req, res) => {
   }
 });
 
-// ─── Final submit after fee paid (Step 4) ────────────────────────
+// ─── Step 4: Final submit ─────────────────────────────────────────
 router.post('/submit/:id', async (req, res) => {
   try {
     const app = await LoanApplication.findById(req.params.id);
-    if (!app) return res.status(404).json({ error: 'Not found' });
+    if (!app)        return res.status(404).json({ error: 'Not found' });
     if (!app.feePaid) return res.status(400).json({ error: 'Processing fee not yet confirmed' });
 
     res.json({
@@ -132,13 +124,19 @@ router.post('/submit/:id', async (req, res) => {
   }
 });
 
-// ─── Track by reference number ────────────────────────────────────
+// ─── Track by reference ───────────────────────────────────────────
 router.get('/track/:ref', async (req, res) => {
   try {
-    const app = await LoanApplication.findOne({ refNumber: req.params.ref })
-      .select('refNumber firstName status loanAmount tenor createdAt');
+    const app = await LoanApplication.findOne({ refNumber: req.params.ref });
     if (!app) return res.status(404).json({ error: 'Application not found' });
-    res.json(app);
+    res.json({
+      refNumber:  app.refNumber,
+      firstName:  app.firstName,
+      status:     app.status,
+      loanAmount: app.loanAmount,
+      tenor:      app.tenor,
+      createdAt:  app.createdAt
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
