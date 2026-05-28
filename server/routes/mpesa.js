@@ -10,13 +10,11 @@ const APP_URL       = process.env.APP_URL || 'http://localhost:3000';
 // ─── Initiate STK Push ────────────────────────────────────────────
 router.post('/pay', async (req, res) => {
   const { applicationId, phone } = req.body;
-
   try {
     const app = await LoanApplication.findById(applicationId);
-    if (!app) return res.status(404).json({ error: 'Application not found' });
-    if (app.feePaid)  return res.status(400).json({ error: 'Fee already paid' });
+    if (!app)        return res.status(404).json({ error: 'Application not found' });
+    if (app.feePaid) return res.status(400).json({ error: 'Fee already paid' });
 
-    // Format phone: ensure 254XXXXXXXXX format
     let formattedPhone = phone.toString().replace(/\s/g, '');
     if (formattedPhone.startsWith('0'))    formattedPhone = '254' + formattedPhone.slice(1);
     if (formattedPhone.startsWith('+'))    formattedPhone = formattedPhone.slice(1);
@@ -26,15 +24,12 @@ router.post('/pay', async (req, res) => {
       phone:        formattedPhone,
       amount:       app.processingFee,
       reference:    app.refNumber,
-      description:  `SwiftCredit processing fee for loan ${app.refNumber}`,
+      description:  `SwiftCredit processing fee for ${app.refNumber}`,
       callback_url: `${APP_URL}/api/mpesa/webhook`
     };
 
     const response = await axios.post(`${LIPANA_BASE}/v1/stk-push`, payload, {
-      headers: {
-        Authorization: `Bearer ${LIPANA_SECRET}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { Authorization: `Bearer ${LIPANA_SECRET}`, 'Content-Type': 'application/json' },
       timeout: 15000
     });
 
@@ -43,78 +38,60 @@ router.post('/pay', async (req, res) => {
                        || response.data?.id;
 
     if (!transactionId) {
-      console.error('Lipana response missing transactionId:', response.data);
-      return res.status(500).json({ error: 'STK push failed: no transaction ID returned' });
+      console.error('Lipana: no transactionId in response', response.data);
+      return res.status(500).json({ error: 'STK push failed — no transaction ID returned' });
     }
 
-    // Save pending transaction
     await Transaction.create({
-      applicationId: app._id,
+      applicationId: app.id,
       refNumber:     app.refNumber,
       lipanaTransId: transactionId,
       phone:         formattedPhone,
-      amount:        app.processingFee,
-      status:        'pending'
+      amount:        app.processingFee
     });
 
     res.json({ success: true, transactionId, message: 'STK Push sent. Check your phone.' });
-
   } catch (err) {
     console.error('STK Push error:', err?.response?.data || err.message);
     res.status(500).json({
-      error: 'Could not initiate payment. Please check phone number and try again.',
+      error: 'Could not initiate payment. Please check the number and try again.',
       details: err?.response?.data || err.message
     });
   }
 });
 
-// ─── Webhook: Lipana → Our server ────────────────────────────────
+// ─── Lipana Webhook ───────────────────────────────────────────────
 router.post('/webhook', async (req, res) => {
   try {
-    const body    = req.body;
-    const payload = body.data || body;
-
-    // Handle both camelCase and snake_case
-    const txnId  = payload.transactionId || payload.transaction_id || body.transactionId;
-    const event  = body.event || body.type || '';
+    const body      = req.body;
+    const payload   = body.data || body;
+    const txnId     = payload.transactionId || payload.transaction_id || body.transactionId;
+    const event     = body.event || body.type || '';
     const mpesaCode = payload.mpesaCode || payload.mpesa_code || payload.MpesaReceiptNumber || '';
 
-    console.log('Lipana webhook received:', JSON.stringify(body, null, 2));
+    console.log('Lipana webhook:', JSON.stringify(body, null, 2));
 
-    if (!txnId) {
-      console.warn('Webhook received without transactionId');
-      return res.status(200).send('OK');
-    }
+    if (!txnId) { console.warn('Webhook: no transactionId'); return res.status(200).send('OK'); }
 
     const txn = await Transaction.findOne({ lipanaTransId: txnId });
-    if (!txn) {
-      console.warn('No transaction found for ID:', txnId);
-      return res.status(200).send('OK');
-    }
+    if (!txn) { console.warn('Webhook: no transaction for', txnId); return res.status(200).send('OK'); }
 
-    if (event.includes('success') || event.includes('complete') || body.ResultCode === 0) {
-      txn.status    = 'success';
-      txn.mpesaCode = mpesaCode;
-      await txn.save();
+    const isSuccess = event.includes('success') || event.includes('complete') || body.ResultCode === 0;
+    const isFail    = event.includes('fail')    || event.includes('cancel')   || (body.ResultCode !== undefined && body.ResultCode !== 0);
 
-      // Update application
+    if (isSuccess) {
+      await Transaction.updateById(txn.id, { status: 'success', mpesaCode });
       await LoanApplication.findByIdAndUpdate(txn.applicationId, {
-        feePaid:       true,
-        mpesaCode:     mpesaCode,
-        lipanaTransId: txnId,
-        status:        'pending'
+        feePaid: true, mpesaCode, lipanaTransId: txnId, status: 'pending'
       });
-
-    } else if (event.includes('fail') || event.includes('cancel') || body.ResultCode !== 0) {
-      txn.status = 'failed';
-      txn.rawPayload = body;
-      await txn.save();
+    } else if (isFail) {
+      await Transaction.updateById(txn.id, { status: 'failed', rawPayload: body });
     }
 
     res.status(200).send('OK');
   } catch (err) {
-    console.error('Webhook processing error:', err.message);
-    res.status(200).send('OK'); // Always 200 to Lipana
+    console.error('Webhook error:', err.message);
+    res.status(200).send('OK');
   }
 });
 
@@ -122,13 +99,8 @@ router.post('/webhook', async (req, res) => {
 router.get('/status/:transactionId', async (req, res) => {
   try {
     const txn = await Transaction.findOne({ lipanaTransId: req.params.transactionId });
-    if (!txn) return res.json({ status: 'pending', message: 'Transaction not found yet' });
-
-    res.json({
-      status:    txn.status,
-      mpesaCode: txn.mpesaCode || '',
-      amount:    txn.amount
-    });
+    if (!txn) return res.json({ status: 'pending', message: 'Awaiting confirmation' });
+    res.json({ status: txn.status, mpesaCode: txn.mpesaCode || '', amount: txn.amount });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
