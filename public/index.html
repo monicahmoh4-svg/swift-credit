@@ -2,591 +2,392 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SwiftCredit — Instant Loans for Kenyans</title>
-<meta name="description" content="Borrow KES 1,000–115,000 at 12% p.a. Approved in minutes, disbursed to M-Pesa.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SwiftCredit — Instant Loans via M-Pesa</title>
+<meta name="description" content="Get loans from KES 1,000 to KES 150,000. Pay a small processing fee via M-Pesa and get same-day disbursement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-<!-- ══════ LANDING ══════ -->
-<div id="page-landing" class="page active">
-
-  <nav class="nav">
-    <a href="#" class="brand">
-      <div class="brand-mark">💳</div>
-      <span class="brand-name">Swift<em>Credit</em></span>
-    </a>
-    <div class="nav-links">
-      <a href="#how-it-works" class="nav-link">How it Works</a>
-      <a href="#features" class="nav-link">Features</a>
-      <button class="btn-nav" onclick="showPage('apply')">Apply Now →</button>
+<!-- ════ HEADER ════ -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">💳</div>
+      <span class="logo-name">Swift<em>Credit</em></span>
     </div>
-  </nav>
-
-  <!-- HERO — HD photo background -->
-  <section class="hero">
-    <img
-      src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1800&q=80&auto=format&fit=crop"
-      alt="Person making a mobile payment"
-      class="hero-img"
-    />
-    <div class="hero-dim"></div>
-
-    <div class="hero-inner">
-      <!-- Left -->
-      <div>
-        <div class="hero-tag">
-          <span class="tag-dot"></span>
-          Instant Decisions &nbsp;·&nbsp; 50,000+ Kenyans Funded
-        </div>
-        <h1 class="hero-h1">
-          Fast Loans.<br>
-          <span class="accent">Zero Hassle.</span>
-        </h1>
-        <p class="hero-desc">
-          Borrow KES 1,000 to KES 115,000 at 12% p.a.
-          Approved in minutes — money sent straight to your M-Pesa.
-        </p>
-        <div class="hero-ctas">
-          <button class="btn-hero-primary" onclick="showPage('apply')">
-            Start My Application
-            <span style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);display:inline-flex;align-items:center;justify-content:center;font-size:14px">→</span>
-          </button>
-          <a href="#how-it-works" class="btn-hero-secondary">See how it works</a>
-        </div>
-        <div class="hero-badges">
-          <span>🏦 CBK Licensed</span>
-          <span>🔒 256-bit Encrypted</span>
-          <span>✅ CRB Verified</span>
-          <span>📱 M-Pesa Native</span>
-        </div>
-      </div>
-
-      <!-- Right preview card -->
-      <div class="hero-card">
-        <div class="hcard-chips">
-          <span class="hcard-chip">Live Preview</span>
-          <span class="hcard-chip green">Pre-Approved ✓</span>
-        </div>
-        <div class="hcard-lbl">Loan Amount</div>
-        <div class="hcard-amount">KES 50,000</div>
-        <div class="hcard-bar"><div class="hcard-bar-fill"></div></div>
-        <div class="hcard-stats">
-          <div class="hcard-stat"><div class="hcs-v">KES 4,583</div><div class="hcs-l">Monthly payment</div></div>
-          <div class="hcard-stat"><div class="hcs-v" style="color:#6EE7B7">742</div><div class="hcs-l">Credit score</div></div>
-          <div class="hcard-stat"><div class="hcs-v">12 mo</div><div class="hcs-l">Tenor</div></div>
-          <div class="hcard-stat"><div class="hcs-v" style="color:#FCD34D">KES 5K</div><div class="hcs-l">Processing fee</div></div>
-        </div>
-        <button class="btn-hcard" onclick="showPage('apply')">Apply Now — It's Free →</button>
-        <div class="hcard-note">✓ Approved in 7 min &nbsp;·&nbsp; 📱 M-Pesa sent</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <div class="stats-bar">
-    <div class="stat"><div class="stat-n">KES <strong>2B+</strong></div><div class="stat-l">Total Disbursed</div></div>
-    <div class="stat-sep"></div>
-    <div class="stat"><div class="stat-n"><strong>50K+</strong></div><div class="stat-l">Happy Borrowers</div></div>
-    <div class="stat-sep"></div>
-    <div class="stat"><div class="stat-n">&lt;<strong>10</strong> min</div><div class="stat-l">Avg. Approval Time</div></div>
-    <div class="stat-sep"></div>
-    <div class="stat"><div class="stat-n"><strong>12%</strong> p.a.</div><div class="stat-l">Interest Rate</div></div>
-  </div>
-
-  <!-- HOW IT WORKS -->
-  <section id="how-it-works" class="section section-white">
-    <div class="section-wrap">
-      <p class="section-eye">Simple Process</p>
-      <h2 class="section-h">4 Steps to Your Loan</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-icon">📝<div class="step-badge">1</div></div>
-          <h3 class="step-name">Fill Details</h3>
-          <p class="step-text">Enter your National ID, Safaricom number, and basic info. Takes under 3 minutes.</p>
-        </div>
-        <div class="step">
-          <div class="step-icon">🔍<div class="step-badge">2</div></div>
-          <h3 class="step-name">Instant Check</h3>
-          <p class="step-text">We verify your identity via IPRS and run a real-time CRB credit bureau check.</p>
-        </div>
-        <div class="step">
-          <div class="step-icon">💰<div class="step-badge">3</div></div>
-          <h3 class="step-name">Choose Amount</h3>
-          <p class="step-text">Select your loan amount and repayment period. Monthly payment shown instantly.</p>
-        </div>
-        <div class="step">
-          <div class="step-icon">📱<div class="step-badge">4</div></div>
-          <h3 class="step-name">Pay &amp; Submit</h3>
-          <p class="step-text">Pay the 10% processing fee via M-Pesa STK Push. Application goes to review.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section id="features" class="section section-dark">
-    <div class="section-wrap">
-      <p class="section-eye" style="color:#6EE7B7">Why SwiftCredit</p>
-      <h2 class="section-h" style="color:#fff">Built for Kenyans, by Kenyans</h2>
-      <div class="feats">
-        <div class="feat"><div class="feat-ic">⚡</div><h3 class="feat-name">Instant Decisions</h3><p class="feat-text">AI-powered scoring gives real-time eligibility results the moment you apply.</p></div>
-        <div class="feat"><div class="feat-ic">🔒</div><h3 class="feat-name">Bank-Level Security</h3><p class="feat-text">256-bit TLS encryption. CBK regulated, fully Kenya Data Protection Act compliant.</p></div>
-        <div class="feat"><div class="feat-ic">📱</div><h3 class="feat-name">M-Pesa First</h3><p class="feat-text">Loan disbursed directly to your Safaricom M-Pesa wallet. No bank account needed.</p></div>
-        <div class="feat"><div class="feat-ic">📊</div><h3 class="feat-name">Flexible Repayment</h3><p class="feat-text">1, 3, 6, 12, or 24-month periods. Exact monthly payment shown before you commit.</p></div>
-        <div class="feat"><div class="feat-ic">🏦</div><h3 class="feat-name">Fully Licensed</h3><p class="feat-text">Regulated by the Central Bank of Kenya. Transparent fees, zero hidden charges.</p></div>
-        <div class="feat"><div class="feat-ic">📞</div><h3 class="feat-name">24/7 Support</h3><p class="feat-text">SMS, WhatsApp, and email support round the clock. Real people — not bots.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <div class="cta-strip">
-    <div class="cta-wrap">
-      <h2 class="cta-h">Ready to get funded?</h2>
-      <p class="cta-p">Join thousands of Kenyans who trust SwiftCredit for instant, fair lending.</p>
-      <button class="btn-cta" onclick="showPage('apply')">Apply Now — It's Free →</button>
+    <div class="header-badges">
+      <span class="hbadge">🔒 Secure</span>
+      <span class="hbadge">📱 M-Pesa</span>
+      <span class="hbadge">⚡ Same Day</span>
     </div>
   </div>
+</header>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-top">
-        <a href="#" class="brand">
-          <div class="brand-mark">💳</div>
-          <span class="brand-name">Swift<em>Credit</em></span>
-        </a>
-        <div class="footer-links">
-          <a href="#" class="footer-link">Privacy Policy</a>
-          <a href="#" class="footer-link">Terms &amp; Conditions</a>
-          <a href="#" class="footer-link">FAQs</a>
-          <a href="#" class="footer-link">Contact</a>
+<!-- ════ HERO ════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="live-dot"></span> Instant Loans · Trusted by 50,000+ Kenyans</div>
+    <h1 class="hero-h1">Get a Loan <em>Instantly</em><br>via M-Pesa</h1>
+    <p class="hero-p">Select a loan plan below, pay a small one-time processing fee via M-Pesa STK Push, and receive your money the same day.</p>
+    <div class="hero-stats">
+      <div class="hs"><strong id="total-apps">2,847</strong><span>Total Applications</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><strong>99%</strong><span>Success Rate</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><strong>&lt;24h</strong><span>Disbursement</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><strong>24/7</strong><span>Available</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ LOAN PLANS ════ -->
+<section class="plans-section">
+  <div class="plans-inner">
+    <h2 class="plans-title">Select Your Loan Amount</h2>
+    <p class="plans-sub">Choose the amount that works for you. Processing fee shown upfront — no hidden charges.</p>
+
+    <!-- Loan plan cards -->
+    <div class="plans-grid" id="plans-grid">
+
+      <div class="plan-card" onclick="selectPlan(this,1000,100,1)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 1,000</div>
+        <div class="plan-tenor">Repay in 1 month</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 1,010</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 100</span></div>
         </div>
+        <div class="plan-cta">Select Plan →</div>
       </div>
-      <div class="footer-bottom">
-        <span>© 2024 SwiftCredit Ltd. All rights reserved.</span>
-        <span>CBK Licensed No. 2024/KE &nbsp;·&nbsp; Kenya Data Protection Act Compliant</span>
+
+      <div class="plan-card" onclick="selectPlan(this,5000,500,3)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 5,000</div>
+        <div class="plan-tenor">Repay in 3 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 1,680</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 500</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+      <div class="plan-card" onclick="selectPlan(this,10000,1000,6)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 10,000</div>
+        <div class="plan-tenor">Repay in 6 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 1,726</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 1,000</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+      <div class="plan-card popular-card" onclick="selectPlan(this,20000,2000,6)">
+        <div class="plan-popular">⭐ Most Popular</div>
+        <div class="plan-amount">KES 20,000</div>
+        <div class="plan-tenor">Repay in 6 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 3,452</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 2,000</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+      <div class="plan-card" onclick="selectPlan(this,30000,3000,6)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 30,000</div>
+        <div class="plan-tenor">Repay in 6 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 5,178</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 3,000</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+      <div class="plan-card" onclick="selectPlan(this,50000,5000,12)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 50,000</div>
+        <div class="plan-tenor">Repay in 12 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 4,441</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 5,000</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+      <div class="plan-card" onclick="selectPlan(this,75000,7500,12)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 75,000</div>
+        <div class="plan-tenor">Repay in 12 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 6,662</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 7,500</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+      <div class="plan-card" onclick="selectPlan(this,100000,10000,12)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 100,000</div>
+        <div class="plan-tenor">Repay in 12 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 8,885</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 10,000</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+      <div class="plan-card" onclick="selectPlan(this,150000,15000,24)">
+        <div class="plan-popular" style="opacity:0">Popular</div>
+        <div class="plan-amount">KES 150,000</div>
+        <div class="plan-tenor">Repay in 24 months</div>
+        <div class="plan-details">
+          <div class="pd-row"><span>Interest Rate</span><span>12% p.a.</span></div>
+          <div class="pd-row"><span>Monthly Payment</span><span>KES 7,063</span></div>
+          <div class="pd-row"><span>Processing Fee</span><span class="pd-fee">KES 15,000</span></div>
+        </div>
+        <div class="plan-cta">Select Plan →</div>
+      </div>
+
+    </div><!-- /plans-grid -->
+
+    <!-- Custom amount -->
+    <div class="custom-amount-wrap">
+      <div class="caw-title">Or enter a custom amount</div>
+      <div class="caw-row">
+        <div class="caw-input-wrap">
+          <span class="caw-prefix">KES</span>
+          <input type="number" class="caw-input" id="customAmount" placeholder="e.g. 45000" min="1000" max="150000" inputmode="numeric">
+        </div>
+        <select class="caw-select" id="customTenor">
+          <option value="1">1 month</option>
+          <option value="3">3 months</option>
+          <option value="6" selected>6 months</option>
+          <option value="12">12 months</option>
+          <option value="24">24 months</option>
+        </select>
+        <button class="btn-custom" onclick="applyCustom()">Calculate →</button>
+      </div>
+      <div class="caw-result" id="caw-result" style="display:none">
+        <div class="cawr-row"><span>Monthly Payment</span><strong id="cawr-monthly">—</strong></div>
+        <div class="cawr-row"><span>Processing Fee (10%)</span><strong id="cawr-fee">—</strong></div>
+        <div class="cawr-row"><span>Total Repayment</span><strong id="cawr-total">—</strong></div>
+        <button class="btn-primary" id="btn-custom-proceed" onclick="proceedCustom()">Proceed with this amount →</button>
       </div>
     </div>
-  </footer>
 
-</div><!-- /page-landing -->
+  </div>
+</section>
 
+<!-- ════ HOW IT WORKS ════ -->
+<section class="hiw-section">
+  <div class="hiw-inner">
+    <h2 class="hiw-title">How It Works</h2>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-num">1</div>
+        <h3>Select Plan</h3>
+        <p>Choose your loan amount. Fee is shown upfront, no surprises.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">2</div>
+        <h3>Enter Details</h3>
+        <p>Provide your National ID and Safaricom M-Pesa number.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">3</div>
+        <h3>Approve M-Pesa</h3>
+        <p>Enter your M-Pesa PIN on the STK Push prompt sent to your phone.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">4</div>
+        <h3>Loan Disbursed</h3>
+        <p>Your loan is sent to your M-Pesa wallet the same day after review.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- ══════ APPLY FLOW ══════ -->
-<div id="page-apply" class="page">
-  <div class="flow-layout">
+<!-- ════ LIVE FEED ════ -->
+<section class="feed-section">
+  <div class="feed-inner">
+    <h2 class="feed-title">Recent Applications</h2>
+    <div class="feed-list" id="feed-list">
+      <div class="feed-item"><span class="fi-name">J*** K***</span><span class="fi-amount">KES 20,000</span><span class="fi-time">2 min ago</span><span class="fi-status ok">✓ Applied</span></div>
+      <div class="feed-item"><span class="fi-name">M*** W***</span><span class="fi-amount">KES 50,000</span><span class="fi-time">5 min ago</span><span class="fi-status ok">✓ Applied</span></div>
+      <div class="feed-item"><span class="fi-name">A*** O***</span><span class="fi-amount">KES 10,000</span><span class="fi-time">9 min ago</span><span class="fi-status ok">✓ Applied</span></div>
+      <div class="feed-item"><span class="fi-name">P*** N***</span><span class="fi-amount">KES 30,000</span><span class="fi-time">14 min ago</span><span class="fi-status ok">✓ Applied</span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="sidebar-top">
-        <button class="back-btn" onclick="showPage('landing')">←</button>
-        <a href="#" class="brand">
-          <div class="brand-mark" style="width:30px;height:30px;font-size:14px;border-radius:7px">💳</div>
-          <span class="brand-name" style="font-size:17px">Swift<em>Credit</em></span>
-        </a>
+<!-- ════ FOOTER ════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="logo"><div class="logo-mark">💳</div><span class="logo-name">Swift<em>Credit</em></span></div>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="footer-note">Powered by Lipana Technologies · Official M-Pesa Integration · CBK Licensed No. 2024/KE<br>SwiftCredit is an independent lending service via official Safaricom M-Pesa APIs. Not operated by Safaricom PLC.</p>
+  </div>
+</footer>
+
+<!-- ════ APPLY MODAL ════ -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- STEP: Details form -->
+    <div id="modal-step-form">
+      <div class="modal-header">
+        <h2 class="modal-title">Complete Your Application</h2>
+        <p class="modal-sub">An M-Pesa STK Push will be sent to your phone</p>
+      </div>
+      <div class="modal-summary">
+        <div class="ms-row"><span>Loan Amount</span><strong id="ms-amount">—</strong></div>
+        <div class="ms-row"><span>Repayment Period</span><strong id="ms-tenor">—</strong></div>
+        <div class="ms-row"><span>Monthly Payment</span><strong id="ms-monthly">—</strong></div>
+        <div class="ms-row hi"><span>Processing Fee</span><strong id="ms-fee">—</strong></div>
       </div>
 
-      <div class="sidebar-steps">
-        <div class="sb-step active" id="sb-1">
-          <div class="sb-left">
-            <div class="sb-circle" id="sc-1">1</div>
-            <div class="sb-line"  id="sl-1"></div>
-          </div>
-          <div class="sb-info">
-            <div class="sb-label">Step 1</div>
-            <div class="sb-name">Personal Details</div>
-          </div>
-        </div>
-        <div class="sb-step" id="sb-2">
-          <div class="sb-left">
-            <div class="sb-circle" id="sc-2">2</div>
-            <div class="sb-line"  id="sl-2"></div>
-          </div>
-          <div class="sb-info">
-            <div class="sb-label">Step 2</div>
-            <div class="sb-name">Eligibility Check</div>
-          </div>
-        </div>
-        <div class="sb-step" id="sb-3">
-          <div class="sb-left">
-            <div class="sb-circle" id="sc-3">3</div>
-            <div class="sb-line"  id="sl-3"></div>
-          </div>
-          <div class="sb-info">
-            <div class="sb-label">Step 3</div>
-            <div class="sb-name">Loan Selection</div>
-          </div>
-        </div>
-        <div class="sb-step" id="sb-4">
-          <div class="sb-left">
-            <div class="sb-circle" id="sc-4">4</div>
-          </div>
-          <div class="sb-info">
-            <div class="sb-label">Step 4</div>
-            <div class="sb-name">Payment &amp; Submit</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sidebar-trust">
-        <div class="trust-row"><span class="trust-ic">🏦</span>CBK Licensed Lender No. 2024/KE</div>
-        <div class="trust-row"><span class="trust-ic">🛡️</span>Kenya Data Protection Act compliant</div>
-        <div class="trust-row"><span class="trust-ic">🔒</span>256-bit TLS encryption</div>
-        <div class="trust-row"><span class="trust-ic">📱</span>M-Pesa payments via Lipana</div>
-      </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="flow-main">
-
-      <!-- ── STEP 1 ── -->
-      <div id="step-1" class="flow-step active">
-        <div class="step-head">
-          <div class="step-crumb">Step 1 of 4</div>
-          <h2 class="step-title">Personal Information</h2>
-          <p class="step-sub">Encrypted and used only for loan processing. Takes about 3 minutes.</p>
-        </div>
-
-        <div class="form-sec">
-          <div class="fsec-title">Full Name</div>
-          <div class="frow">
-            <div class="fgroup">
-              <label class="flabel">First Name <span class="freq">*</span></label>
-              <input type="text" class="finput" id="firstName" placeholder="e.g. John" autocomplete="given-name">
-              <div class="ferror" id="err-firstName">Please enter your first name</div>
+      <div class="mform">
+        <div class="mfgroup">
+          <label class="mflabel">Full Name <span class="mreq">*</span></label>
+          <div class="mf2col">
+            <div>
+              <input type="text" class="mfinput" id="m-firstName" placeholder="First name" autocomplete="given-name">
+              <div class="mferr" id="merr-firstName">Enter your first name</div>
             </div>
-            <div class="fgroup">
-              <label class="flabel">Last Name <span class="freq">*</span></label>
-              <input type="text" class="finput" id="lastName" placeholder="e.g. Kamau" autocomplete="family-name">
-              <div class="ferror" id="err-lastName">Please enter your last name</div>
+            <div>
+              <input type="text" class="mfinput" id="m-lastName" placeholder="Last name" autocomplete="family-name">
+              <div class="mferr" id="merr-lastName">Enter your last name</div>
             </div>
           </div>
         </div>
 
-        <div class="form-sec">
-          <div class="fsec-title">Identity</div>
-          <div class="frow">
-            <div class="fgroup">
-              <label class="flabel">National ID Number <span class="freq">*</span></label>
-              <input type="text" class="finput" id="idNumber" placeholder="12345678" maxlength="8" inputmode="numeric">
-              <div class="fhint">Your 8-digit Kenya National ID</div>
-              <div class="ferror" id="err-idNumber">Must be exactly 8 digits</div>
-            </div>
-            <div class="fgroup">
-              <label class="flabel">KRA PIN <span class="fopt">(optional)</span></label>
-              <input type="text" class="finput" id="kraPin" placeholder="A123456789B" maxlength="11">
-              <div class="fhint">Improves credit eligibility</div>
-            </div>
-          </div>
+        <div class="mfgroup">
+          <label class="mflabel">National ID Number <span class="mreq">*</span></label>
+          <input type="text" class="mfinput" id="m-idNumber" placeholder="Enter a valid 7–9 digit National ID" maxlength="9" inputmode="numeric">
+          <div class="mferr" id="merr-idNumber">Enter a valid 7–9 digit ID number</div>
         </div>
 
-        <div class="form-sec">
-          <div class="fsec-title">Contact</div>
-          <div class="fgroup">
-            <label class="flabel">Safaricom M-Pesa Number <span class="freq">*</span></label>
-            <div class="ph-row">
-              <div class="ph-pre">🇰🇪 +254</div>
-              <input type="tel" class="finput ph-input" id="phoneNumber" placeholder="7XXXXXXXX" maxlength="9" inputmode="numeric">
-            </div>
-            <div class="fhint">Used for disbursement and payment prompt</div>
-            <div class="ferror" id="err-phone">Enter a valid Safaricom number (07XX or 01XX)</div>
+        <div class="mfgroup">
+          <label class="mflabel">M-Pesa Phone Number <span class="mreq">*</span></label>
+          <div class="mphone-row">
+            <span class="mphone-pre">+254</span>
+            <input type="tel" class="mfinput mphone-input" id="m-phone" placeholder="Enter a valid 9-digit Safaricom number" maxlength="9" inputmode="numeric">
           </div>
-          <div class="fgroup">
-            <label class="flabel">Email Address <span class="fopt">(optional)</span></label>
-            <input type="email" class="finput" id="email" placeholder="john@example.com" autocomplete="email">
-          </div>
+          <div class="mferr" id="merr-phone">Enter a valid Safaricom number</div>
         </div>
 
-        <div class="form-sec">
-          <div class="fsec-title">Personal &amp; Financial Profile</div>
-          <div class="frow">
-            <div class="fgroup">
-              <label class="flabel">Date of Birth <span class="freq">*</span></label>
-              <input type="date" class="finput" id="dob">
-              <div class="ferror" id="err-dob">Must be at least 18 years old</div>
-            </div>
-            <div class="fgroup">
-              <label class="flabel">Gender <span class="freq">*</span></label>
-              <select class="fselect" id="gender">
-                <option value="">Select gender</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Prefer not to say</option>
-              </select>
-            </div>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Employment Status <span class="freq">*</span></label>
-            <select class="fselect" id="employment">
-              <option value="">Select employment status</option>
-              <option>Employed — Formal Sector</option>
-              <option>Employed — Informal Sector</option>
-              <option>Self-Employed / Business Owner</option>
-              <option>Freelancer / Gig Worker</option>
-              <option>Student</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="frow">
-            <div class="fgroup">
-              <label class="flabel">Monthly Income (KES) <span class="freq">*</span></label>
-              <input type="number" class="finput" id="income" placeholder="e.g. 50000" min="1" inputmode="numeric">
-              <div class="ferror" id="err-income">Please enter your monthly income</div>
-            </div>
-            <div class="fgroup">
-              <label class="flabel">Loan Purpose <span class="freq">*</span></label>
-              <select class="fselect" id="loanPurpose">
-                <option value="">Select purpose</option>
-                <option>Business Expansion</option>
-                <option>Medical Expenses</option>
-                <option>Education</option>
-                <option>Home Improvement</option>
-                <option>Emergency</option>
-                <option>Agriculture</option>
-                <option>Asset Purchase</option>
-                <option>Debt Consolidation</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
+        <div class="mfgroup">
+          <label class="mflabel">Employment Status <span class="mreq">*</span></label>
+          <select class="mfinput" id="m-employment">
+            <option value="">Select status</option>
+            <option>Employed — Formal Sector</option>
+            <option>Employed — Informal Sector</option>
+            <option>Self-Employed / Business Owner</option>
+            <option>Freelancer / Gig Worker</option>
+            <option>Student</option>
+            <option>Other</option>
+          </select>
+          <div class="mferr" id="merr-employment">Select your employment status</div>
         </div>
 
-        <div class="consent-wrap">
-          <input type="checkbox" id="consent" class="consent-cb">
-          <label for="consent">
-            I consent to SwiftCredit verifying my National ID with IPRS, checking my CRB credit history, and processing my data per our
-            <a href="#" class="tlink">Privacy Policy</a> and <a href="#" class="tlink">Terms &amp; Conditions</a>.
-          </label>
+        <div class="mfgroup">
+          <label class="mflabel">Monthly Income (KES) <span class="mreq">*</span></label>
+          <input type="number" class="mfinput" id="m-income" placeholder="e.g. 30000" min="1" inputmode="numeric">
+          <div class="mferr" id="merr-income">Enter your monthly income</div>
         </div>
 
-        <button class="btn-primary" id="btn-step1" onclick="submitPersonalInfo()">
-          Continue to Eligibility Check →
+        <div class="mfgroup">
+          <label class="mflabel">Loan Purpose <span class="mreq">*</span></label>
+          <select class="mfinput" id="m-purpose">
+            <option value="">Select purpose</option>
+            <option>Business Expansion</option>
+            <option>Medical Expenses</option>
+            <option>Education</option>
+            <option>Emergency</option>
+            <option>Home Improvement</option>
+            <option>Agriculture</option>
+            <option>Asset Purchase</option>
+            <option>Other</option>
+          </select>
+          <div class="mferr" id="merr-purpose">Select loan purpose</div>
+        </div>
+
+        <div class="consent-row">
+          <input type="checkbox" id="m-consent" class="consent-cb">
+          <label for="m-consent">I consent to SwiftCredit verifying my ID with IPRS, checking my CRB credit history, and processing my data per our <a href="#" class="tlink">Privacy Policy</a> and <a href="#" class="tlink">Terms of Service</a>.</label>
+        </div>
+
+        <div class="mpesa-warn">⚠️ An M-Pesa prompt will appear on your phone. Enter your PIN to authorise. <strong>Never share your PIN</strong> with anyone.</div>
+
+        <button class="btn-stk" id="btn-stk" onclick="submitApp()">
+          🔒 Send STK Push
         </button>
       </div>
-
-
-      <!-- ── STEP 2 ── -->
-      <div id="step-2" class="flow-step">
-
-        <!-- Checking state -->
-        <div id="elig-checking">
-          <div class="step-head">
-            <div class="step-crumb">Step 2 of 4</div>
-            <h2 class="step-title">Checking Eligibility</h2>
-            <p class="step-sub">Running real-time checks — hang tight.</p>
-          </div>
-          <div class="ck-body">
-            <div class="ck-spin-r"><div class="ring-spin"></div></div>
-            <div class="ck-status" id="ck-status">Starting verification…</div>
-            <ul class="ck-list">
-              <li class="ck-item" id="ci-1"><div class="ck-dot"></div><span>IPRS Identity Verification</span></li>
-              <li class="ck-item" id="ci-2"><div class="ck-dot"></div><span>CRB Credit Bureau Check</span></li>
-              <li class="ck-item" id="ci-3"><div class="ck-dot"></div><span>Safaricom Number Validation</span></li>
-              <li class="ck-item" id="ci-4"><div class="ck-dot"></div><span>M-Pesa Transaction Analysis</span></li>
-              <li class="ck-item" id="ci-5"><div class="ck-dot"></div><span>Risk Score Calculation</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Result state -->
-        <div id="elig-result" style="display:none">
-          <div class="step-head">
-            <div class="step-crumb">Step 2 of 4 — Complete</div>
-            <h2 class="step-title">Eligibility Result</h2>
-          </div>
-          <div class="res-card">
-            <div class="res-head ok" id="res-head">
-              <div class="res-ico" id="res-ico">✅</div>
-              <div>
-                <div class="res-title ok" id="res-title">You're Pre-Approved!</div>
-                <div class="res-sub"  id="res-sub">Your profile qualifies for a SwiftCredit loan.</div>
-              </div>
-            </div>
-            <div class="res-metrics" id="res-metrics">
-              <div class="res-metric"><div class="rm-v" id="m-maxloan">—</div><div class="rm-l">Max Amount</div></div>
-              <div class="res-metric"><div class="rm-v" id="m-score">—</div><div class="rm-l">Credit Score</div></div>
-              <div class="res-metric"><div class="rm-v">12%</div><div class="rm-l">Rate p.a.</div></div>
-            </div>
-          </div>
-          <div class="note-amber">⚠️ Pre-approval based on your profile. Final amount subject to credit committee review.</div>
-          <button class="btn-primary" id="btn-elig-proceed" onclick="goToLoanSelect()">
-            Proceed to Loan Selection →
-          </button>
-        </div>
-
-      </div>
-
-
-      <!-- ── STEP 3 ── -->
-      <div id="step-3" class="flow-step">
-        <div class="step-head">
-          <div class="step-crumb">Step 3 of 4</div>
-          <h2 class="step-title">Choose Your Loan</h2>
-          <p class="step-sub">Adjust the slider or tap a quick-select. Costs update in real time.</p>
-        </div>
-
-        <div class="amount-card">
-          <div class="ac-lbl">Loan Amount</div>
-          <div class="ac-val"><span class="ac-kes">KES</span><span id="loan-display">10,000</span></div>
-          <input type="range" class="loan-range" id="loanSlider" min="1000" max="115000" step="1000" value="10000" oninput="onSlider()">
-          <div class="ac-range-lbls"><span>KES 1,000</span><span id="slider-max">KES 115,000</span></div>
-        </div>
-
-        <div class="grid-lbl">Quick Select</div>
-        <div class="quick-grid">
-          <button class="qbtn" onclick="pickAmt(1000)">KES 1K</button>
-          <button class="qbtn" onclick="pickAmt(5000)">KES 5K</button>
-          <button class="qbtn on" onclick="pickAmt(10000)">KES 10K</button>
-          <button class="qbtn" onclick="pickAmt(20000)">KES 20K</button>
-          <button class="qbtn" onclick="pickAmt(30000)">KES 30K</button>
-          <button class="qbtn" onclick="pickAmt(50000)">KES 50K</button>
-          <button class="qbtn" onclick="pickAmt(80000)">KES 80K</button>
-          <button class="qbtn" onclick="pickAmt(115000)">KES 115K</button>
-        </div>
-
-        <div class="grid-lbl">Repayment Period</div>
-        <div class="tenor-row">
-          <button class="tbtn"    onclick="pickTenor(this,1)">1 Month</button>
-          <button class="tbtn on" onclick="pickTenor(this,3)">3 Months</button>
-          <button class="tbtn"    onclick="pickTenor(this,6)">6 Months</button>
-          <button class="tbtn"    onclick="pickTenor(this,12)">12 Months</button>
-          <button class="tbtn"    onclick="pickTenor(this,24)">24 Months</button>
-        </div>
-
-        <div class="sum-grid">
-          <div class="sum-box"><div class="sum-lbl">Monthly Payment</div><div class="sum-val" id="ls-monthly">—</div></div>
-          <div class="sum-box"><div class="sum-lbl">Total Interest</div><div class="sum-val" id="ls-interest">—</div></div>
-          <div class="sum-box"><div class="sum-lbl">Total Repayment</div><div class="sum-val" id="ls-total">—</div></div>
-          <div class="sum-box amber"><div class="sum-lbl">Processing Fee <small>(10%)</small></div><div class="sum-val" id="ls-fee">—</div></div>
-        </div>
-
-        <div class="fee-box">
-          <div class="fee-box-body">
-            <div class="fee-box-title">💡 Processing Fee</div>
-            <div class="fee-box-text">10% of your loan amount, paid once via M-Pesa. Covers CRB check, IPRS verification, and admin costs. Non-refundable.</div>
-          </div>
-          <div class="fee-box-aside">
-            <div class="fba-lbl">Your fee</div>
-            <div class="fba-val" id="fee-live">—</div>
-          </div>
-        </div>
-
-        <div class="note-blue">📋 Pay the processing fee via M-Pesa to submit your application for review.</div>
-        <button class="btn-primary" id="btn-step3" onclick="goToPayment()">Proceed to Payment →</button>
-      </div>
-
-
-      <!-- ── STEP 4 ── -->
-      <div id="step-4" class="flow-step">
-
-        <!-- Init -->
-        <div id="pay-init">
-          <div class="step-head">
-            <div class="step-crumb">Step 4 of 4</div>
-            <h2 class="step-title">Pay Processing Fee</h2>
-            <p class="step-sub">A one-time, non-refundable fee required to submit your application.</p>
-          </div>
-          <div class="mp-card">
-            <div class="mp-top">
-              <div class="mp-logo">M-PESA</div>
-              <div>
-                <div class="mp-tag">Lipa Na M-Pesa</div>
-                <div class="mp-tag-sub">Secure STK Push · Powered by Lipana</div>
-              </div>
-            </div>
-            <div class="mp-body">
-              <div class="fee-tbl">
-                <div class="fee-row"><span>Loan Amount</span><span class="fee-v" id="ft-amount">—</span></div>
-                <div class="fee-row"><span>Interest Rate</span><span class="fee-v">12% p.a.</span></div>
-                <div class="fee-row"><span>Processing Fee (10%)</span><span class="fee-v" id="ft-fee">—</span></div>
-                <div class="fee-row total"><span>Total Due via M-Pesa</span><span class="fee-v fee-total-v" id="ft-total">—</span></div>
-              </div>
-              <div class="fgroup" style="margin-top:18px">
-                <label class="flabel">M-Pesa Number <span class="freq">*</span></label>
-                <div class="ph-row">
-                  <div class="ph-pre">🇰🇪 +254</div>
-                  <input type="tel" class="finput ph-input" id="payPhone" placeholder="7XXXXXXXX" maxlength="9" inputmode="numeric">
-                </div>
-                <div class="fhint">STK Push will be sent to this number</div>
-              </div>
-              <div class="mp-secure">🔐 You'll receive a prompt on your phone. Enter your <strong>M-Pesa PIN</strong> to complete payment securely.</div>
-              <button class="btn-mpesa" id="stk-btn" onclick="doSTK()">
-                📱 Send M-Pesa Prompt — KES <span id="btn-fee">—</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Waiting -->
-        <div id="pay-waiting" style="display:none">
-          <div class="step-head">
-            <div class="step-crumb">Awaiting Payment</div>
-            <h2 class="step-title">Check Your Phone</h2>
-          </div>
-          <div class="stk-card">
-            <div class="stk-ph">📱</div>
-            <div class="stk-title">STK Push Sent!</div>
-            <div class="stk-desc">Enter your <strong>M-Pesa PIN</strong> to pay <strong id="wait-fee">—</strong>. Prompt sent to your registered number.</div>
-            <div class="stk-dots"><span></span><span></span><span></span><span></span></div>
-            <div class="stk-timer">Expires in <strong><span id="countdown">120</span>s</strong></div>
-            <button class="btn-outline" onclick="resendSTK()">↺ Resend Prompt</button>
-          </div>
-        </div>
-
-        <!-- Confirmed -->
-        <div id="pay-confirmed" style="display:none">
-          <div class="step-head">
-            <div class="step-crumb">Payment Confirmed ✓</div>
-            <h2 class="step-title">Finalising Application…</h2>
-          </div>
-          <div class="stk-card">
-            <div class="confirmed-ico">✅</div>
-            <div class="stk-title">Payment Received!</div>
-            <div class="stk-desc">M-Pesa code: <strong id="mpesa-code">—</strong></div>
-            <div class="ring-spin" style="margin:20px auto;width:38px;height:38px;border-width:3px"></div>
-            <div style="font-size:14px;color:var(--muted);margin-top:8px">Submitting your application…</div>
-          </div>
-        </div>
-
-      </div><!-- /step-4 -->
-    </main>
-  </div>
-</div><!-- /page-apply -->
-
-
-<!-- ══════ SUCCESS ══════ -->
-<div id="page-success" class="page">
-  <div class="success-wrap">
-    <div class="success-card">
-      <div class="succ-emoji">🎉</div>
-      <h1 class="succ-title">Application Submitted!</h1>
-      <p class="succ-desc">Your application is under review. You'll receive an SMS within 24–48 hours at your registered M-Pesa number.</p>
-      <div class="ref-box">
-        <div class="ref-lbl">Application Reference</div>
-        <div class="ref-code" id="success-ref">SC-2024-000001</div>
-      </div>
-      <div class="succ-grid">
-        <div class="succ-item"><div class="succ-lbl">Loan Amount</div><div class="succ-val" id="s-amount">—</div></div>
-        <div class="succ-item"><div class="succ-lbl">Repayment</div><div class="succ-val" id="s-tenor">—</div></div>
-        <div class="succ-item"><div class="succ-lbl">Monthly Pay.</div><div class="succ-val" id="s-monthly">—</div></div>
-        <div class="succ-item"><div class="succ-lbl">Status</div><div class="succ-val" style="color:#D97706">⏳ Under Review</div></div>
-      </div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.65">Save your reference number. Our credit team will contact you to confirm next steps.</p>
-      <button class="btn-primary" onclick="showPage('landing')">← Back to Home</button>
     </div>
+
+    <!-- STEP: Waiting for M-Pesa -->
+    <div id="modal-step-waiting" style="display:none">
+      <div class="modal-header">
+        <div class="wait-phone">📱</div>
+        <h2 class="modal-title">Check Your Phone</h2>
+        <p class="modal-sub">Prompt sent to <strong id="wait-phone-display">—</strong><br>Enter your M-Pesa PIN to approve</p>
+      </div>
+      <div class="wait-info">
+        <p>Waiting for confirmation — updates automatically</p>
+        <div class="wait-dots"><span></span><span></span><span></span><span></span></div>
+        <div class="wait-timer">Session expires in <strong><span id="wait-cd">120</span>s</strong></div>
+        <div class="wait-steps">
+          <p><strong>What to do:</strong></p>
+          <p>1. Find the M-Pesa prompt on your phone</p>
+          <p>2. Enter your M-Pesa PIN to approve payment</p>
+          <p>3. This page updates once confirmed</p>
+        </div>
+      </div>
+      <button class="btn-outline" onclick="cancelWait()">No prompt? Close and try again.</button>
+    </div>
+
+    <!-- STEP: Success -->
+    <div id="modal-step-success" style="display:none">
+      <div class="modal-header">
+        <div class="success-check">✅</div>
+        <h2 class="modal-title">Application Submitted!</h2>
+        <p class="modal-sub">Updated to <strong id="succ-amount">—</strong></p>
+      </div>
+      <div class="succ-details">
+        <div class="sd-row"><span>Reference</span><strong id="succ-ref">—</strong></div>
+        <div class="sd-row"><span>M-Pesa Code</span><strong id="succ-code">—</strong></div>
+        <div class="sd-row"><span>Amount Paid</span><strong id="succ-paid">—</strong></div>
+        <div class="sd-row"><span>Status</span><strong style="color:#059669">✓ Confirmed</strong></div>
+      </div>
+      <p class="succ-note">Your loan application is under review. You'll receive an SMS within 24 hours at your registered M-Pesa number.</p>
+      <button class="btn-primary" onclick="closeModal()">Done</button>
+    </div>
+
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast">
-  <span id="t-icon"></span>
-  <span id="t-msg"></span>
+<!-- Toast -->
+<div class="toast-wrap" id="toast">
+  <span id="t-icon"></span><span id="t-msg"></span>
 </div>
 
 <script src="/js/main.js"></script>
